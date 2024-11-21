@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light"
+      data-menu-styles="light" data-toggled="close">
+{% load static %}
+<head>
+
+    <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> Главная страница </title>
+    <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+    <meta name="Author" content="Spruko Technologies Private Limited">
+    <meta name="keywords"
+          content="admin dashboard template,admin panel html,bootstrap dashboard,admin dashboard,html template,template dashboard html,html css,bootstrap 5 admin template,bootstrap admin template,bootstrap 5 dashboard,admin panel html template,dashboard template bootstrap,admin dashboard html template,bootstrap admin panel,simple html template,admin dashboard bootstrap">
+    <link rel="icon" href="{% static 'assets/images/brand-logos/favicon.ico' %}" type="image/x-icon">
+    <script src="{% static 'assets/libs/choices.js/public/assets/scripts/choices.min.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <link id="style" href="{% static 'assets/libs/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/styles.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/libs/node-waves/waves.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/libs/simplebar/simplebar.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/libs/flatpickr/flatpickr.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/libs/simonwep/pickr/themes/nano.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/libs/choices.js/public/assets/styles/choices.min.css' %}">
+</head>
+
+<body>
+
+
+<div id="loader">
+    <img src="{% static 'assets/images/media/loader.svg' %}" alt="">
+</div>
+
+<div class="page">
+    <header class="app-header">
+        <div class="main-header-container container-fluid">
+            <div class="header-content-left">
+                <div class="header-element">
+                    <div class="horizontal-logo">
+                        <a href="index.html" class="header-logo">
+                            <img src="{% static 'assets/images/brand-logos/desktop-logo.png' %}" alt="logo"
+                                 class="desktop-logo">
+                            <img src="{% static 'assets/images/brand-logos/toggle-logo.png' %}" alt="logo"
+                                 class="toggle-logo">
+                            <img src="{% static 'assets/images/brand-logos/desktop-white.png' %}" alt="logo"
+                                 class="desktop-white">
+                            <img src="{% static 'assets/images/brand-logos/toggle-white.png' %}" alt="logo"
+                                 class="toggle-white">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="header-content-right">
+                <div class="header-element">
+                    <div class="dropdown">
+                        <a href="javascript:void(0);" class="header-link dropdown-toggle" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="header-link-icon" width="24" height="24"
+                                 viewBox="0 0 24 24">
+                                <path d="M12 16c2.206 0 4-1.794 4-4s-1.794-4-4-4-4 1.794-4 4 1.794 4 4 4zm0-6c1.084 0 2 .916 2 2s-.916 2-2 2-2-.916-2-2 .916-2 2-2z"></path>
+                                <path d="m2.845 16.136 1 1.73c.531.917 1.809 1.261 2.73.73l.529-.306A8.1 8.1 0 0 0 9 19.402V20c0 1.103.897 2 2 2h2c1.103 0 2-.897 2-2v-.598a8.132 8.132 0 0 0 1.896-1.111l.529.306c.923.53 2.198.188 2.731-.731l.999-1.729a2.001 2.001 0 0 0-.731-2.732l-.505-.292a7.718 7.718 0 0 0 0-2.224l.505-.292a2.002 2.002 0 0 0 .731-2.732l-.999-1.729c-.531-.92-1.808-1.265-2.731-.732l-.529.306A8.1 8.1 0 0 0 15 4.598V4c0-1.103-.897-2-2-2h-2c-1.103 0-2 .897-2 2v.598a8.132 8.132 0 0 0-1.896 1.111l-.529-.306c-.924-.531-2.2-.187-2.731.732l-.999 1.729a2.001 2.001 0 0 0 .731 2.732l.505.292a7.683 7.683 0 0 0 0 2.223l-.505.292a2.003 2.003 0 0 0-.731 2.733zm3.326-2.758A5.703 5.703 0 0 1 6 12c0-.462.058-.926.17-1.378a.999.999 0 0 0-.47-1.108l-1.123-.65.998-1.729 1.145.662a.997.997 0 0 0 1.188-.142 6.071 6.071 0 0 1 2.384-1.399A1 1 0 0 0 11 5.3V4h2v1.3a1 1 0 0 0 .708.956 6.083 6.083 0 0 1 2.384 1.399.999.999 0 0 0 1.188.142l1.144-.661 1 1.729-1.124.649a1 1 0 0 0-.47 1.108c.112.452.17.916.17 1.378 0 .461-.058.925-.171 1.378a1 1 0 0 0 .471 1.108l1.123.649-.998 1.729-1.145-.661a.996.996 0 0 0-1.188.142 6.071 6.071 0 0 1-2.384 1.399A1 1 0 0 0 13 18.7l.002 1.3H11v-1.3a1 1 0 0 0-.708-.956 6.083 6.083 0 0 1-2.384-1.399.992.992 0 0 0-1.188-.141l-1.144.662-1-1.729 1.124-.651a1 1 0 0 0 .471-1.108z"></path>
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item" href="/logout">Выйти</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <aside class="app-sidebar sticky" id="sidebar">
+        <div class="main-sidebar-header">
+            <a href="index.html" class="header-logo">
+                <img src="{% static 'assets/images/brand-logos/desktop-logo.png' %}" alt="logo" class="desktop-logo">
+                <img src="{% static 'assets/images/brand-logos/toggle-logo.png' %}" alt="logo" class="toggle-logo">
+                <img src="{% static 'assets/images/brand-logos/desktop-white.png' %}" alt="logo" class="desktop-white">
+                <img src="{% static 'assets/images/brand-logos/toggle-white.png' %}" alt="logo" class="toggle-white">
+            </a>
+        </div>
+        <div class="main-sidebar" id="sidebar-scroll">
+
+            <nav class="main-menu-container nav nav-pills flex-column sub-open">
+                <div class="slide-left" id="slide-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path>
+                    </svg>
+                </div>
+                <ul class="main-menu">
+                    <li class="slide__category"><span class="category-name">Меню</span></li>
+                    <li class="slide">
+                        <a href="/index" class="side-menu__item">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                                <path d="M0 0h24v24H0V0z" fill="none"/>
+                                <path d="M5 5h4v6H5zm10 8h4v6h-4zM5 17h4v2H5zM15 5h4v2h-4z" opacity=".3"/>
+                                <path d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z"/>
+                            </svg>
+                            <span class="side-menu__label">Главная страница</span>
+                        </a>
+                    </li>
+                    <li class="slide">
+                         <a href="/faq" class="side-menu__item">
+                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
+                                 class="side-menu__icon" viewBox="0 0 24 24">
+                                <g></g>
+                                <g>
+                                    <g/>
+                                    <g>
+                                        <path d="M21,5c-1.11-0.35-2.33-0.5-3.5-0.5c-1.95,0-4.05,0.4-5.5,1.5c-1.45-1.1-3.55-1.5-5.5-1.5S2.45,4.9,1,6v14.65 c0,0.25,0.25,0.5,0.5,0.5c0.1,0,0.15-0.05,0.25-0.05C3.1,20.45,5.05,20,6.5,20c1.95,0,4.05,0.4,5.5,1.5c1.35-0.85,3.8-1.5,5.5-1.5 c1.65,0,3.35,0.3,4.75,1.05c0.1,0.05,0.15,0.05,0.25,0.05c0.25,0,0.5-0.25,0.5-0.5V6C22.4,5.55,21.75,5.25,21,5z M3,18.5V7 c1.1-0.35,2.3-0.5,3.5-0.5c1.34,0,3.13,0.41,4.5,0.99v11.5C9.63,18.41,7.84,18,6.5,18C5.3,18,4.1,18.15,3,18.5z M21,18.5 c-1.1-0.35-2.3-0.5-3.5-0.5c-1.34,0-3.13,0.41-4.5,0.99V7.49c1.37-0.59,3.16-0.99,4.5-0.99c1.2,0,2.4,0.15,3.5,0.5V18.5z"/>
+                                        <path d="M11,7.49C9.63,6.91,7.84,6.5,6.5,6.5C5.3,6.5,4.1,6.65,3,7v11.5C4.1,18.15,5.3,18,6.5,18 c1.34,0,3.13,0.41,4.5,0.99V7.49z"
+                                              opacity=".3"/>
+                                    </g>
+                                    <g>
+                                        <path d="M17.5,10.5c0.88,0,1.73,0.09,2.5,0.26V9.24C19.21,9.09,18.36,9,17.5,9c-1.28,0-2.46,0.16-3.5,0.47v1.57 C14.99,10.69,16.18,10.5,17.5,10.5z"/>
+                                        <path d="M17.5,13.16c0.88,0,1.73,0.09,2.5,0.26V11.9c-0.79-0.15-1.64-0.24-2.5-0.24c-1.28,0-2.46,0.16-3.5,0.47v1.57 C14.99,13.36,16.18,13.16,17.5,13.16z"/>
+                                        <path d="M17.5,15.83c0.88,0,1.73,0.09,2.5,0.26v-1.52c-0.79-0.15-1.64-0.24-2.5-0.24c-1.28,0-2.46,0.16-3.5,0.47v1.57 C14.99,16.02,16.18,15.83,17.5,15.83z"/>
+                                    </g>
+                                </g>
+                            </svg>
+                            <span class="side-menu__label">FAQ</span>
+                        </a>
+                    </li>
+                    <li class="slide">
+                        <a href="/settings_service" class="side-menu__item">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                                <path d="M0 0h24v24H0V0z" fill="none"/>
+                                <path d="M6.26 9L12 13.47 17.74 9 12 4.53z" opacity=".3"/>
+                                <path d="M19.37 12.8l-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2L3 9l1.63 1.27L12 16l7.36-5.73L21 9l-9-7zm0 11.47L6.26 9 12 4.53 17.74 9 12 13.47z"/>
+                            </svg>
+                            <span class="side-menu__label">Настройка сервисов</span>
+                        </a>
+                    </li>
+                    <li class="slide">
+                        <a href="/settings_rules" class="side-menu__item">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                                <path d="M0 0h24v24H0V0z" fill="none"/>
+                                <path d="M5 9h14V5H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5S7.83 8.5 7 8.5 5.5 7.83 5.5 7 6.17 5.5 7 5.5zM5 19h14v-4H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z"
+                                      opacity=".3"/>
+                                <path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm-1 6H5v-4h14v4zm-12-.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-1 6H5V5h14v4zM7 8.5c.83 0 1.5-.67 1.5-1.5S7.83 5.5 7 5.5 5.5 6.17 5.5 7 6.17 8.5 7 8.5z"/>
+                            </svg>
+                            <span class="side-menu__label">Настройка правил</span>
+                        </a>
+                    </li>
+                    <li class="slide">
+                         <a href="/about" class="side-menu__item">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                                <path d="M0 0h24v24H0V0z" fill="none"/>
+                                <path d="M10.9 19.91c.36.05.72.09 1.1.09 2.18 0 4.16-.88 5.61-2.3L14.89 13l-3.99 6.91zm-1.04-.21l2.71-4.7H4.59c.93 2.28 2.87 4.03 5.27 4.7zM8.54 12L5.7 7.09C4.64 8.45 4 10.15 4 12c0 .69.1 1.36.26 2h5.43l-1.15-2zm9.76 4.91C19.36 15.55 20 13.85 20 12c0-.69-.1-1.36-.26-2h-5.43l3.99 6.91zM13.73 9h5.68c-.93-2.28-2.88-4.04-5.28-4.7L11.42 9h2.31zm-3.46 0l2.83-4.92C12.74 4.03 12.37 4 12 4c-2.18 0-4.16.88-5.6 2.3L9.12 11l1.15-2z"
+                                      opacity=".3"/>
+                                <path d="M12 22c5.52 0 10-4.48 10-10 0-4.75-3.31-8.72-7.75-9.74l-.08-.04-.01.02C13.46 2.09 12.74 2 12 2 6.48 2 2 6.48 2 12s4.48 10 10 10zm0-2c-.38 0-.74-.04-1.1-.09L14.89 13l2.72 4.7C16.16 19.12 14.18 20 12 20zm8-8c0 1.85-.64 3.55-1.7 4.91l-4-6.91h5.43c.17.64.27 1.31.27 2zm-.59-3h-7.99l2.71-4.7c2.4.66 4.35 2.42 5.28 4.7zM12 4c.37 0 .74.03 1.1.08L10.27 9l-1.15 2L6.4 6.3C7.84 4.88 9.82 4 12 4zm-8 8c0-1.85.64-3.55 1.7-4.91L8.54 12l1.15 2H4.26C4.1 13.36 4 12.69 4 12zm6.27 3h2.3l-2.71 4.7c-2.4-.67-4.35-2.42-5.28-4.7h5.69z"/>
+                            </svg>
+                            <span class="side-menu__label">О нас</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="slide-right" id="slide-right">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
+                    </svg>
+                </div>
+            </nav>
+        </div>
+    </aside>
+    <div class="main-content app-content">
+        <div class="container-fluid">
+            <div class="container about-container">
+                <div class="row about-main mb-5">
+                    <div class="col-lg-8 col-md-8 col-sm-12 text-center">
+                        <h1 class="mb-3 fw-semibold fs-46">Hello! This is <span class="text-primary fs-56">Valex.</span>
+                        </h1>
+                        <p class="leading-normal lead-1">Majority have suffered alteration in some form.</p>
+                        <p class="leading-normal  fs-16">There are many variations of passages of Lorem Ipsum available,
+                            but the majority have suffered by injected humour, or randomised words which don't look even
+                            slightly believable.
+                            If you are going to use a passage of Lorem Ipsum you are going to use a passage of Lorem
+                            Ipsum</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card mt-7">
+                            <div class="card-body p-0 p-lg-5 text-dark">
+                                <div class="statistics-info p-4">
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="">
+                                                <h2 class="fw-bold mb-4 text-dark">We Help to <span
+                                                        class="text-primary">Build</span> Your Dream Project.</h2>
+                                                <h5 class="leading-normal fw-normal mb-4 text-dark">majority have
+                                                    suffered alteration in some form, by injected humour</h5>
+                                                <p>There are many variations of passages of Lorem Ipsum available, but
+                                                    the majority have suffered by injected humour, or randomised words
+                                                    which don't look even slightly believable.</p>
+                                                <p>All the Lorem Ipsum generators on the Internet tend to repeat Various
+                                                    versions have evolved over the years, sometimes by accident,
+                                                    sometimes on purpose (injected humour and the like).</p>
+                                                <p> If you are going to use a passage of Lorem Ipsum, you need to as
+                                                    necessary All the Lorem Ipsum generators on the Internet tend to
+                                                    repeat Various versions have evolved over the years, sometimes by
+                                                    accident, sometimes on purpose (injected humour and the like).</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="text-center">
+                                                <img src="{% static 'assets/images/media/pngs/7.png' %}" alt=""
+                                                     class="w-100">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="scrollToTop">
+    <span class="arrow"><i class="las la-angle-double-up"></i></span>
+</div>
+<div id="responsive-overlay"></div>
+<script src="{% static 'assets/libs/popperjs/core/umd/popper.min.js' %}"></script>
+<script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'assets/js/defaultmenu.min.js' %}"></script>
+<script src="{% static 'assets/libs/node-waves/waves.min.js' %}"></script>
+<script src="{% static 'assets/js/sticky.js' %}"></script>
+<script src="{% static 'assets/libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'assets/js/simplebar.js' %}"></script>
+<script src="{% static 'assets/libs/simonwep/pickr/pickr.es5.min.js' %}"></script>
+<script src="{% static 'assets/js/custom-switcher.min.js' %}"></script>
+<script src="{% static 'assets/js/custom.js' %}"></script>
+
+</body>
+
+</html>

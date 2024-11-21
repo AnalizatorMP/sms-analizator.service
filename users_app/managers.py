@@ -1,3 +1,5 @@
+import secrets
+
 from django.contrib.auth.models import BaseUserManager
 
 
@@ -5,7 +7,13 @@ class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError('Email обязателен для создания пользователя')
+
         email = self.normalize_email(email)
+
+        # Генерация токена, если не задан
+        if 'token_url' not in extra_fields or not extra_fields['token_url']:
+            extra_fields['token_url'] = secrets.token_urlsafe(32)
+
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
