@@ -28,7 +28,19 @@ class User(AbstractUser):
         null=True,
         blank=True
     )
-    USERNAME_FIELD = 'email'
+    telegram_id = models.CharField(
+        max_length=500,
+        verbose_name='ID TG',
+        blank=True,
+        null=True
+    )
+    phone = models.CharField(
+        max_length=100,
+        null=True,
+        verbose_name='Телефон',
+        unique=True
+    )
+    USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = []
 
     objects = UserManager()
@@ -38,7 +50,7 @@ class User(AbstractUser):
         verbose_name_plural = 'Пользователи'
 
     def __str__(self):
-        return f'{self.email}'
+        return f'{self.phone}'
 
     def save(self, *args, **kwargs):
         if not self.token_url:
