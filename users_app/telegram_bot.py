@@ -86,60 +86,45 @@ async def handle_contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def add_group(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
-    Запрашивает номер телефона для добавления группы.
+    Проверяет Telegram ID пользователя и добавляет группу, если пользователь зарегистрирован.
     """
-    await update.message.reply_text(
-        "Введите ваш номер телефона для добавления группы:"
-    )
-    context.user_data['awaiting_phone_for_group'] = True
+    telegram_id = str(update.message.from_user.id)
 
-
-async def handle_group_phone(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """
-    Обрабатывает введённый номер телефона для привязки чата к аккаунту.
-    """
-    if not context.user_data.get('awaiting_phone_for_group'):
-        return
-
-    phone = clean_phone_number(update.message.text.strip())
-
-    existing_user = await get_existing_user_by_phone(phone)
+    # Проверяем, существует ли пользователь с этим Telegram ID
+    existing_user = await get_existing_user_by_telegram_id(telegram_id)
 
     if existing_user:
         chat_id = update.message.chat_id
         chat_title = update.message.chat.title or "Без названия"
 
+        # Проверяем, добавлен ли этот чат ранее
         existing_chat_query = TelegramChats.objects.filter(user=existing_user, chat_id=chat_id)
         chat_exists = await sync_to_async(existing_chat_query.exists)()
 
         if chat_exists:
-            await update.message.reply_text(
-                f"Этот чат уже добавлен"
-            )
+            await update.message.reply_text("Этот чат уже добавлен.")
         else:
+            # Сохраняем новый чат в базе
             await sync_to_async(TelegramChats.objects.create)(
                 user=existing_user,
                 title=chat_title,
                 chat_id=chat_id
             )
-
             await update.message.reply_text(
                 f"Чат '{chat_title}' успешно добавлен в вашу учетную запись."
             )
     else:
+        # Если Telegram ID не найден, уведомляем пользователя
         await update.message.reply_text(
-            "Пользователь с таким номером телефона не найден. "
-            "Пожалуйста, проверьте номер телефона и повторите попытку."
+            "Ваш Telegram ID не зарегистрирован в системе. "
+            "Пожалуйста, зарегистрируйтесь перед добавлением группы."
         )
-
-    context.user_data.pop('awaiting_phone_for_group', None)
 
 
 def main():
     app = ApplicationBuilder().token(settings.TOKEN_BOT).build()
 
     app.add_handler(CommandHandler("add_group", add_group))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_group_phone))
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.CONTACT, handle_contact))
 
