@@ -14,15 +14,6 @@ from telegram.ext import (
 from users_app.models import TelegramChats, User
 
 
-# Обработчик команды /start
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    contact_keyboard = KeyboardButton(text="Отправить номер телефона", request_contact=True)
-    reply_markup = ReplyKeyboardMarkup([[contact_keyboard]], resize_keyboard=True, one_time_keyboard=True)
-
-    await update.message.reply_text('Нажмите кнопку ниже, чтобы отправить ваш номер телефона:',
-                                    reply_markup=reply_markup)
-
-
 # Обработчик полученного контакта
 def generate_password(length=12):
     characters = string.ascii_letters + string.digits + string.punctuation
@@ -61,6 +52,58 @@ def get_existing_user_by_phone(phone):
     return User.objects.filter(phone=phone).first()
 
 
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    Обрабатывает команду /start.
+    Для private чатов выполняет регистрацию, для остальных — добавление группы.
+    """
+    # Проверяем тип чата
+    chat_type = update.message.chat.type
+
+    if chat_type == "private":
+        # Для личных сообщений выполняем функционал регистрации
+        contact_keyboard = KeyboardButton(text="Отправить номер телефона", request_contact=True)
+        reply_markup = ReplyKeyboardMarkup([[contact_keyboard]], resize_keyboard=True, one_time_keyboard=True)
+
+        await update.message.reply_text(
+            'Нажмите кнопку ниже, чтобы отправить ваш номер телефона:',
+            reply_markup=reply_markup
+        )
+    else:
+        # Для групп/каналов выполняем функционал добавления группы
+        telegram_id = str(update.message.from_user.id)
+
+        # Проверяем, существует ли пользователь с этим Telegram ID
+        existing_user = await get_existing_user_by_telegram_id(telegram_id)
+
+        if existing_user:
+            chat_id = update.message.chat_id
+            chat_title = update.message.chat.title or "Без названия"
+
+            # Проверяем, добавлен ли этот чат ранее
+            existing_chat_query = TelegramChats.objects.filter(user=existing_user, chat_id=chat_id)
+            chat_exists = await sync_to_async(existing_chat_query.exists)()
+
+            if chat_exists:
+                await update.message.reply_text("Этот чат уже добавлен.")
+            else:
+                # Сохраняем новый чат в базе
+                await sync_to_async(TelegramChats.objects.create)(
+                    user=existing_user,
+                    title=chat_title,
+                    chat_id=chat_id
+                )
+                await update.message.reply_text(
+                    f"Чат '{chat_title}' успешно добавлен в вашу учетную запись."
+                )
+        else:
+            # Если Telegram ID не найден, уведомляем пользователя
+            await update.message.reply_text(
+                "Ваш Telegram ID не зарегистрирован в системе. "
+                "Пожалуйста, зарегистрируйтесь перед добавлением группы."
+            )
+
+
 async def handle_contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_contact = update.message.contact
     phone = user_contact.phone_number
@@ -84,47 +127,9 @@ async def handle_contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Этот Telegram ID уже зарегистрирован.")
 
 
-async def add_group(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """
-    Проверяет Telegram ID пользователя и добавляет группу, если пользователь зарегистрирован.
-    """
-    telegram_id = str(update.message.from_user.id)
-
-    # Проверяем, существует ли пользователь с этим Telegram ID
-    existing_user = await get_existing_user_by_telegram_id(telegram_id)
-
-    if existing_user:
-        chat_id = update.message.chat_id
-        chat_title = update.message.chat.title or "Без названия"
-
-        # Проверяем, добавлен ли этот чат ранее
-        existing_chat_query = TelegramChats.objects.filter(user=existing_user, chat_id=chat_id)
-        chat_exists = await sync_to_async(existing_chat_query.exists)()
-
-        if chat_exists:
-            await update.message.reply_text("Этот чат уже добавлен.")
-        else:
-            # Сохраняем новый чат в базе
-            await sync_to_async(TelegramChats.objects.create)(
-                user=existing_user,
-                title=chat_title,
-                chat_id=chat_id
-            )
-            await update.message.reply_text(
-                f"Чат '{chat_title}' успешно добавлен в вашу учетную запись."
-            )
-    else:
-        # Если Telegram ID не найден, уведомляем пользователя
-        await update.message.reply_text(
-            "Ваш Telegram ID не зарегистрирован в системе. "
-            "Пожалуйста, зарегистрируйтесь перед добавлением группы."
-        )
-
-
 def main():
     app = ApplicationBuilder().token(settings.TOKEN_BOT).build()
 
-    app.add_handler(CommandHandler("add_group", add_group))
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.CONTACT, handle_contact))
 
