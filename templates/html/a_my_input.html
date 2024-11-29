@@ -353,11 +353,11 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <!-- Вывод сохранённых ключей -->
                         {% if user_keys %}
                         <div class="row">
                             {% for key in user_keys %}
                             <div class="col-md-4 mb-4">
-                                <!-- Карточка для каждого объекта -->
                                 <div class="card">
                                     <div class="card-header">
                                         <strong>{{ key.name }}</strong>
@@ -367,7 +367,6 @@
                                         <p><strong>Ключ:</strong> {{ key.token }}</p>
                                     </div>
                                     <div class="card-footer">
-                                        <!-- Кнопка удаления -->
                                         <form method="POST" action="{% url 'delete_service' key.id %}"
                                               style="display:inline;">
                                             {% csrf_token %}
@@ -380,6 +379,33 @@
                         </div>
                         {% else %}
                         <p>У вас нет сохранённых сервисов.</p>
+                        {% endif %}
+
+                        <!-- Вывод сохранённых номеров -->
+                        {% if user_numbers %}
+                        <div class="row mt-4">
+                            {% for number in user_numbers %}
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>{{ number.name }}</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <p><strong>Телефон:</strong> {{ number.telephone }}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <form method="POST" action="{% url 'delete_number_service' number.id %}"
+                                              style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p>У вас нет сохранённых номеров.</p>
                         {% endif %}
                     </div>
                 </div>

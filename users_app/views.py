@@ -113,9 +113,16 @@ def settings_service(request):
     else:
         form = ServiceKeyForm()
 
+    # Получаем все объекты для текущего пользователя
     user_keys = Key.objects.filter(user=request.user)
+    user_numbers = NumbersService.objects.filter(user=request.user)
 
-    return render(request, 'html/a_my_input.html', {'form': form, 'user_keys': user_keys})
+    return render(
+        request,
+        'html/a_my_input.html',
+        {'form': form, 'user_keys': user_keys, 'user_numbers': user_numbers}
+    )
+
 
 
 @login_required
