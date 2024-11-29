@@ -124,6 +124,12 @@ def settings_service(request):
     )
 
 
+@login_required
+def delete_number_service(request, id):
+    service = get_object_or_404(NumbersService, id=id, user=request.user)
+    service.delete()
+    return redirect('settings_service')
+
 
 @login_required
 def delete_service(request, key_id):

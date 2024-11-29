@@ -15,4 +15,6 @@ urlpatterns = [
     path('settings_service/', views.settings_service, name='settings_service'),
     path('settings_service/delete/<int:key_id>/', views.delete_service, name='delete_service'),
     path('webhook/<str:token>/', views.get_webhook, name='webhook'),
+    path('delete_number_service/<int:id>/', views.delete_number_service, name='delete_number_service')
+
 ]
