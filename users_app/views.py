@@ -55,11 +55,20 @@ def faq(request):
 def settings_rules(request):
     if request.method == 'POST':
         form = ServiceForm(user=request.user, data=request.POST)
+
         if form.is_valid():
-            sender = form.cleaned_data['sender']
+            print('Форма прошла валидацию')
+            # Проверяем, установлен ли флаг "Любой отправитель"
+            any_sender = form.cleaned_data.get('any_sender', False)
+            if any_sender:  # Если флаг установлен
+                sender = 'Любой отправитель'
+            else:
+                sender = form.cleaned_data['sender']
+
             telephone = form.cleaned_data['telephone']
             telegram_chat = form.cleaned_data['telegram_chat']
 
+            # Создаем правило с учетом флага
             Rules.objects.create(
                 user=request.user,
                 sender=sender,
@@ -68,6 +77,10 @@ def settings_rules(request):
             )
 
             return redirect('settings_rules')
+
+        else:
+            # Выводим ошибки, если форма невалидна
+            print("Ошибки формы: ", form.errors)
 
     else:
         form = ServiceForm(user=request.user)
@@ -160,20 +173,24 @@ async def get_webhook(request, token):
                 text = result.get('text', 'Не указан')
 
                 rules = await sync_to_async(Rules.objects.filter)(user=user)
-                matched_rule = await sync_to_async(rules.filter(sender=caller_id).first)()
+                matched_rules = await sync_to_async(
+                    lambda: list(rules.filter(sender__in=[caller_id, "Любой отправитель"]))
+                )()
 
-                if matched_rule:
-                    to_whom_chat_id = await sync_to_async(lambda: matched_rule.to_whom.chat_id)()
-
+                if matched_rules:
                     tg_bot = Bot(settings.TOKEN_BOT)
-                    message_text = (f'Пришло сообщение от {caller_id}\n'
-                                    f'На номер: {caller_did}\n'
-                                    f'Текст: {text}')
-                    await tg_bot.send_message(chat_id=to_whom_chat_id, text=message_text)
+                    for rule in matched_rules:
+                        to_whom_chat_id = await sync_to_async(lambda: rule.to_whom.chat_id)()
+
+                        message_text = (f'Пришло сообщение от {caller_id}\n'
+                                        f'На номер: {caller_did}\n'
+                                        f'Текст: {text}')
+                        await tg_bot.send_message(chat_id=to_whom_chat_id, text=message_text)
+
                     return JsonResponse({
                         'status': 'success',
-                        'message': 'Данные получены',
-                        'rule_id': matched_rule.id
+                        'message': 'Данные получены и обработаны',
+                        'rules_count': len(matched_rules)
                     }, status=200)
                 else:
                     return JsonResponse({

@@ -182,6 +182,12 @@
                                     <div class="form-group">
                                         <input type="text" id="id_sender" name="sender" class="form-control"
                                                value="{{ form.sender.value|default:'' }}">
+                                        <input type="hidden" id="hidden_sender" name="sender" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="any_sender">
+                                            <input type="checkbox" id="any_sender" name="any_sender"> Любой отправитель
+                                        </label>
                                     </div>
                                 </form>
                             </div>
@@ -267,6 +273,7 @@
                                         <strong>{{ rule.name }}</strong>
                                     </div>
                                     <div class="card-body">
+                                        <p><strong>Отправитель:</strong> {{ rule.sender }}</p>
                                         <p><strong>Телефон:</strong> {{ rule.from_whom }}</p>
                                         <p><strong>Канал Telegram:</strong> {{ rule.to_whom }}</p>
                                     </div>
@@ -295,6 +302,7 @@
         const telephoneSelect = document.getElementById('id_telephone');
         const telegramSelect = document.getElementById('id_telegram_chat');
         const submitButton = document.getElementById('submit-button');
+        const anySenderCheckbox = document.getElementById('any_sender');
 
         // Функция для проверки заполненности всех полей
         function checkFields() {
@@ -302,21 +310,54 @@
             const telephone = telephoneSelect.value;
             const telegramChat = telegramSelect.value;
 
-            // Если все поля заполнены, активируем кнопку отправки
-            if (sender && telephone && telegramChat) {
-                submitButton.disabled = false;
+            // Если флаг "Любой отправитель" установлен, не проверяем поле отправителя
+            if (anySenderCheckbox.checked) {
+                if (telephone && telegramChat) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
             } else {
-                submitButton.disabled = true;
+                // Проверяем все поля, если флаг не установлен
+                if (sender && telephone && telegramChat) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
             }
         }
+
+        // Функция для блокировки поля отправителя
+        function toggleSenderInput() {
+            const hiddenSender = document.getElementById('hidden_sender');
+            if (anySenderCheckbox.checked) {
+                senderInput.disabled = true; // Блокируем поле
+                hiddenSender.value = "Любой отправитель"; // Устанавливаем значение
+            } else {
+                senderInput.disabled = false; // Разблокируем поле
+                hiddenSender.value = senderInput.value; // Копируем значение из активного поля
+            }
+        }
+
+        senderInput.addEventListener('input', function () {
+            const hiddenSender = document.getElementById('hidden_sender');
+            if (!anySenderCheckbox.checked) {
+                hiddenSender.value = senderInput.value; // Обновляем скрытое поле
+            }
+        });
 
         // Добавляем обработчики событий для каждого элемента формы
         senderInput.addEventListener('input', checkFields); // Для поля input
         telephoneSelect.addEventListener('change', checkFields); // Для select
         telegramSelect.addEventListener('change', checkFields); // Для select
+        anySenderCheckbox.addEventListener('change', function () {
+            toggleSenderInput();
+            checkFields(); // Перепроверяем поля при изменении состояния чекбокса
+        });
 
-        // Инициализация состояния кнопки при загрузке страницы
+        // Инициализация состояния кнопки и отправителя при загрузке страницы
         checkFields();
+        toggleSenderInput();
     </script>
     <!--End::row-1 -->
 </div>

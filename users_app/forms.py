@@ -23,6 +23,8 @@ class ServiceForm(forms.Form):
         empty_label='Выберите канал Telegram'
     )
 
+    any_sender = forms.BooleanField(required=False, label="Любой отправитель")
+
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)

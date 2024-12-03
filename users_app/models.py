@@ -95,7 +95,7 @@ class TelegramChats(models.Model):
         verbose_name_plural = 'ТГ каналы'
 
     def __str__(self):
-        return f'{self.user} - {self.title}'
+        return f'{self.title}'
 
 
 class NumbersService(models.Model):
@@ -111,7 +111,8 @@ class NumbersService(models.Model):
     )
     telephone = models.CharField(
         max_length=100,
-        verbose_name='Номер телефона'
+        verbose_name='Номер телефона',
+        unique=True
     )
 
     class Meta:
