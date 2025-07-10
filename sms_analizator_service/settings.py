@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
+import sys
+
 
 from dotenv import load_dotenv
 
@@ -75,6 +77,47 @@ TEMPLATES = [
     },
 ]
 
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,  # чтобы не отключить встроенные логгеры
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,  # можно также использовать sys.stderr
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '[{levelname}] {asctime} {name} {message}',
+            'style': '{',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',  # можно DEBUG для более подробного вывода
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'users_app': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'users_app.views': {  # <--- добавь это
+             'handlers': ['console'],
+             'level': 'DEBUG',
+             'propagate': False,
+        },
+    },
+}
+
 WSGI_APPLICATION = 'sms_analizator_service.wsgi.application'
 
 # Database
@@ -91,7 +134,15 @@ DATABASES = {
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             'connect_timeout': 10,
+            'read_timeout': 10,
+            'write_timeout': 10,
+            'charset': 'utf8mb4',
+            'autocommit': True,
+            # Автоматическое переподключение
+            'isolation_level': None,
         },
+        'CONN_MAX_AGE': 0,  # Не использовать persistent connections
+        'CONN_HEALTH_CHECKS': True,  # Django 4.1+
     }
 }
 
