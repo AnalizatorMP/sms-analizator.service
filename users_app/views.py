@@ -301,12 +301,18 @@ async def get_webhook(request, token):
         # Фильтруем подходящие правила
         matched_rules = []
         for rule in rules:
-            logger.info(f"🔍 WEBHOOK: проверка правила ID {rule.id}: '{rule.sender}' -> {rule.to_whom.title if rule.to_whom else 'None'}")
-            if rule.sender in [caller_id, "Любой отправитель"]:
+            from_whom_phone = rule.from_whom.telephone if rule.from_whom else 'Не указан'
+            logger.info(f"🔍 WEBHOOK: проверка правила ID {rule.id}: '{rule.sender}' (номер: {from_whom_phone}) -> {rule.to_whom.title if rule.to_whom else 'None'}")
+            
+            # Проверяем отправителя И получателя SMS
+            sender_matches = rule.sender in [caller_id, "Любой отправитель"]
+            recipient_matches = rule.from_whom and rule.from_whom.telephone == caller_did
+            
+            if sender_matches and recipient_matches:
                 matched_rules.append(rule)
-                logger.info(f"✅ WEBHOOK: правило ID {rule.id} подходит")
+                logger.info(f"✅ WEBHOOK: правило ID {rule.id} подходит (отправитель: {sender_matches}, получатель: {recipient_matches})")
             else:
-                logger.info(f"❌ WEBHOOK: правило ID {rule.id} не подходит")
+                logger.info(f"❌ WEBHOOK: правило ID {rule.id} не подходит (отправитель: {sender_matches}, получатель: {recipient_matches})")
 
         logger.info(f"📋 WEBHOOK: найдено {len(matched_rules)} подходящих правил из {len(rules)} общих")
 
