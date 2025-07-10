@@ -346,15 +346,28 @@
             function copyWebhookUrl(userToken) {
                 const webhookUrl = `https://sms.analizator.mp/webhook/${userToken}`;
                 
-                // Создаем временный элемент для копирования
+                // Используем современный Clipboard API если доступен
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(webhookUrl).then(() => {
+                        alert('Webhook URL скопирован в буфер обмена!');
+                    }).catch(err => {
+                        console.error('Ошибка копирования: ', err);
+                        fallbackCopyTextToClipboard(webhookUrl);
+                    });
+                } else {
+                    // Fallback для старых браузеров
+                    fallbackCopyTextToClipboard(webhookUrl);
+                }
+            }
+
+            // Резервная функция для копирования
+            function fallbackCopyTextToClipboard(text) {
                 const tempInput = document.createElement('input');
-                tempInput.value = webhookUrl;
+                tempInput.value = text;
                 document.body.appendChild(tempInput);
                 tempInput.select();
                 document.execCommand('copy');
                 document.body.removeChild(tempInput);
-                
-                // Показываем уведомление
                 alert('Webhook URL скопирован в буфер обмена!');
             }
         </script>
@@ -388,7 +401,7 @@
                                         <p><strong>Ключ:</strong> {{ key.token }}</p>
                                     </div>
                                     <div class="card-footer d-flex justify-content-between">
-                                        <button type="button" class="btn btn-success btn-sm" onclick="copyWebhookUrl('{{ user.token }}')">
+                                        <button type="button" class="btn btn-success btn-sm" onclick="copyWebhookUrl('{{ user.token_url }}')">
                                             <i class="fas fa-copy"></i> Скопировать webhook URL
                                         </button>
                                         <form method="POST" action="{% url 'delete_service' key.id %}"
@@ -418,7 +431,7 @@
                                         <p><strong>Телефон:</strong> {{ number.telephone }}</p>
                                     </div>
                                     <div class="card-footer d-flex justify-content-between">
-                                        <button type="button" class="btn btn-success btn-sm" onclick="copyWebhookUrl('{{ user.token }}')">
+                                        <button type="button" class="btn btn-success btn-sm" onclick="copyWebhookUrl('{{ user.token_url }}')">
                                             <i class="fas fa-copy"></i> Скопировать webhook URL
                                         </button>
                                         <form method="POST" action="{% url 'delete_number_service' number.id %}"
