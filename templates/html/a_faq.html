@@ -413,8 +413,8 @@
                                     <div class="alert alert-warning">
                                         <strong>📝 Тело запроса:</strong> В поле "Тело" введите точно следующий JSON:
                                         <div class="mt-2">
-                                            <code class="d-block p-2 bg-light border rounded">
-                                                {"result":{"caller_did":{{virtual_phone_number}},"caller_id":{{contact_phone_number}},"text":{{message}}}}
+                                            <code class="d-block p-2 bg-light border">
+                                                {% verbatim %}{"result":{"caller_did":{{virtual_phone_number}},"caller_id":{{contact_phone_number}},"text":{{message}}}}{% endverbatim %}
                                             </code>
                                         </div>
                                         <small class="text-muted mt-1">⚠️ Важно: скопируйте этот JSON точно, включая все скобки и кавычки</small>
