@@ -343,9 +343,12 @@
                                         </div>
                                         <div class="col-md-4 text-center">
                                             <img src="{% static 'assets/images/instructions/1.png' %}" 
-                                                 alt="Настройки NovoFon" class="img-fluid border rounded" 
-                                                 style="max-width: 100%; height: auto;">
-                                            <small class="text-muted d-block mt-1">Скриншот 1: Меню настроек</small>
+                                                 alt="Настройки NovoFon" class="img-fluid border rounded screenshot-modal" 
+                                                 style="max-width: 100%; height: auto; cursor: pointer;"
+                                                 data-bs-toggle="modal" data-bs-target="#imageModal"
+                                                 data-image-src="{% static 'assets/images/instructions/1.png' %}"
+                                                 data-image-title="Скриншот 1: Меню настроек NovoFon">
+                                            <small class="text-muted d-block mt-1">Скриншот 1: Меню настроек <i class="fe fe-zoom-in ms-1"></i></small>
                                         </div>
                                     </div>
 
@@ -360,9 +363,12 @@
                                         </div>
                                         <div class="col-md-4 text-center">
                                             <img src="{% static 'assets/images/instructions/2.png' %}" 
-                                                 alt="Раздел уведомлений NovoFon" class="img-fluid border rounded" 
-                                                 style="max-width: 100%; height: auto;">
-                                            <small class="text-muted d-block mt-1">Скриншот 2: Раздел уведомлений</small>
+                                                 alt="Раздел уведомлений NovoFon" class="img-fluid border rounded screenshot-modal" 
+                                                 style="max-width: 100%; height: auto; cursor: pointer;"
+                                                 data-bs-toggle="modal" data-bs-target="#imageModal"
+                                                 data-image-src="{% static 'assets/images/instructions/2.png' %}"
+                                                 data-image-title="Скриншот 2: Раздел уведомлений NovoFon">
+                                            <small class="text-muted d-block mt-1">Скриншот 2: Раздел уведомлений <i class="fe fe-zoom-in ms-1"></i></small>
                                         </div>
                                     </div>
 
@@ -376,9 +382,12 @@
                                         </div>
                                         <div class="col-md-4 text-center">
                                             <img src="{% static 'assets/images/instructions/3.png' %}" 
-                                                 alt="Добавление уведомления NovoFon" class="img-fluid border rounded" 
-                                                 style="max-width: 100%; height: auto;">
-                                            <small class="text-muted d-block mt-1">Скриншот 3: Добавить уведомление</small>
+                                                 alt="Добавление уведомления NovoFon" class="img-fluid border rounded screenshot-modal" 
+                                                 style="max-width: 100%; height: auto; cursor: pointer;"
+                                                 data-bs-toggle="modal" data-bs-target="#imageModal"
+                                                 data-image-src="{% static 'assets/images/instructions/3.png' %}"
+                                                 data-image-title="Скриншот 3: Добавление уведомления NovoFon">
+                                            <small class="text-muted d-block mt-1">Скриншот 3: Добавить уведомление <i class="fe fe-zoom-in ms-1"></i></small>
                                         </div>
                                     </div>
 
@@ -393,9 +402,12 @@
                                         </div>
                                         <div class="col-md-4 text-center">
                                             <img src="{% static 'assets/images/instructions/4.png' %}" 
-                                                 alt="Настройки уведомления NovoFon" class="img-fluid border rounded" 
-                                                 style="max-width: 100%; height: auto;">
-                                            <small class="text-muted d-block mt-1">Скриншот 4: Настройки уведомления</small>
+                                                 alt="Настройки уведомления NovoFon" class="img-fluid border rounded screenshot-modal" 
+                                                 style="max-width: 100%; height: auto; cursor: pointer;"
+                                                 data-bs-toggle="modal" data-bs-target="#imageModal"
+                                                 data-image-src="{% static 'assets/images/instructions/4.png' %}"
+                                                 data-image-title="Скриншот 4: Настройки уведомления NovoFon">
+                                            <small class="text-muted d-block mt-1">Скриншот 4: Настройки уведомления <i class="fe fe-zoom-in ms-1"></i></small>
                                         </div>
                                     </div>
 
@@ -730,6 +742,25 @@
     <span class="arrow"><i class="las la-angle-double-up"></i></span>
 </div>
 <div id="responsive-overlay"></div>
+
+<!-- Модальное окно для просмотра изображений -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Просмотр скриншота</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-1">
+                <img id="modalImage" src="" alt="" class="img-fluid" style="max-width: 100%; height: auto;">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="{% static 'assets/libs/popperjs/core/umd/popper.min.js' %}"></script>
 <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'assets/js/defaultmenu.min.js' %}"></script>
@@ -741,6 +772,29 @@
 <script src="{% static 'assets/js/custom-switcher.min.js' %}"></script>
 <script src="{% static 'assets/js/custom.js' %}"></script>
 
+<!-- JavaScript для модального окна изображений -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const imageModal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('imageModalLabel');
+
+    imageModal.addEventListener('show.bs.modal', function (event) {
+        const trigger = event.relatedTarget;
+        const imageSrc = trigger.getAttribute('data-image-src');
+        const imageTitle = trigger.getAttribute('data-image-title');
+        
+        modalImage.src = imageSrc;
+        modalImage.alt = imageTitle;
+        modalTitle.textContent = imageTitle;
+    });
+
+    // Закрытие модального окна при клике на изображение
+    modalImage.addEventListener('click', function() {
+        bootstrap.Modal.getInstance(imageModal).hide();
+    });
+});
+</script>
 </body>
 
 </html>
