@@ -317,12 +317,119 @@
                                     </ul>
 
                                     <h5>Шаг 2: Для Novofon</h5>
+                                    <div class="alert alert-warning mb-4">
+                                        <strong>⚠️ Важно:</strong> Для NovoFon необходимо настроить уведомления в личном кабинете провайдера. Следуйте подробной инструкции ниже.
+                                    </div>
+                                    
+                                    <h6 class="text-primary">2.1. Настройка в системе SMS Анализатор:</h6>
                                     <ul>
                                         <li>Выберите "Novofon" в выпадающем списке</li>
                                         <li>Оставьте поля "Название" и "Ключ" пустыми</li>
                                         <li>В поле "Телефон" введите номер без "+" (например: 79261234567)</li>
                                         <li>Нажмите "Отправить"</li>
+                                        <li>Скопируйте webhook URL, который появится в разделе "Ваши сохраненные сервисы"</li>
                                     </ul>
+
+                                    <h6 class="text-primary">2.2. Настройка уведомлений в личном кабинете NovoFon:</h6>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-8">
+                                            <h6><span class="badge bg-primary me-2">Шаг 1</span>Зайдите в настройки</h6>
+                                            <ul>
+                                                <li>Войдите в личный кабинет NovoFon</li>
+                                                <li>В левом меню найдите раздел "Настройки"</li>
+                                                <li>Нажмите на "Настройки"</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <img src="{% static 'assets/images/instructions/novofon/step1-settings.png' %}" 
+                                                 alt="Настройки NovoFon" class="img-fluid border rounded" 
+                                                 style="max-width: 100%; height: auto;">
+                                            <small class="text-muted d-block mt-1">Скриншот 1: Меню настроек</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-8">
+                                            <h6><span class="badge bg-primary me-2">Шаг 2</span>Перейдите в "Настройки уведомлений"</h6>
+                                            <ul>
+                                                <li>В разделе настроек найдите "Уведомления"</li>
+                                                <li>Нажмите на "Уведомления"</li>
+                                                <li>Вы увидите список текущих уведомлений</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <img src="{% static 'assets/images/instructions/novofon/step2-notifications.png' %}" 
+                                                 alt="Раздел уведомлений NovoFon" class="img-fluid border rounded" 
+                                                 style="max-width: 100%; height: auto;">
+                                            <small class="text-muted d-block mt-1">Скриншот 2: Раздел уведомлений</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-8">
+                                            <h6><span class="badge bg-primary me-2">Шаг 3</span>Добавьте новое уведомление</h6>
+                                            <ul>
+                                                <li>Нажмите кнопку "Добавить уведомление"</li>
+                                                <li>Откроется форма настройки уведомления</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <img src="{% static 'assets/images/instructions/novofon/step3-add-notification.png' %}" 
+                                                 alt="Добавление уведомления NovoFon" class="img-fluid border rounded" 
+                                                 style="max-width: 100%; height: auto;">
+                                            <small class="text-muted d-block mt-1">Скриншот 3: Добавить уведомление</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-8">
+                                            <h6><span class="badge bg-primary me-2">Шаг 4</span>Настройте параметры уведомления</h6>
+                                            <ul>
+                                                <li><strong>Название уведомления:</strong> введите любое удобное название (например: "SMS Анализатор")</li>
+                                                <li><strong>Тип события:</strong> обязательно выберите "Получено SMS сообщение"</li>
+                                                <li><strong>Активно:</strong> убедитесь, что переключатель включен</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <img src="{% static 'assets/images/instructions/novofon/step4-notification-settings.png' %}" 
+                                                 alt="Настройки уведомления NovoFon" class="img-fluid border rounded" 
+                                                 style="max-width: 100%; height: auto;">
+                                            <small class="text-muted d-block mt-1">Скриншот 4: Настройки уведомления</small>
+                                        </div>
+                                    </div>
+
+                                    <h6><span class="badge bg-success me-2">Шаг 5</span>Настройте способы уведомления</h6>
+                                    <div class="alert alert-info">
+                                        <strong>📡 HTTP уведомление:</strong>
+                                        <ul class="mb-0 mt-2">
+                                            <li><strong>Включите HTTP:</strong> активируйте переключатель для HTTP уведомлений</li>
+                                            <li><strong>Метод:</strong> выберите <code>POST</code></li>
+                                            <li><strong>URL:</strong> вставьте webhook URL, скопированный из раздела "Ваши сохраненные сервисы"</li>
+                                        </ul>
+                                    </div>
+
+                                    <h6><span class="badge bg-success me-2">Шаг 6</span>Настройте тело запроса</h6>
+                                    <div class="alert alert-warning">
+                                        <strong>📝 Тело запроса:</strong> В поле "Тело" введите точно следующий JSON:
+                                        <div class="mt-2">
+                                            <code class="d-block p-2 bg-light border rounded">
+                                                {"result":{"caller_did":{{virtual_phone_number}},"caller_id":{{contact_phone_number}},"text":{{message}}}}
+                                            </code>
+                                        </div>
+                                        <small class="text-muted mt-1">⚠️ Важно: скопируйте этот JSON точно, включая все скобки и кавычки</small>
+                                    </div>
+
+                                    <h6><span class="badge bg-success me-2">Шаг 7</span>Сохраните настройки</h6>
+                                    <ul>
+                                        <li>Нажмите кнопку "Сохранить" или "Добавить параметр"</li>
+                                        <li>Убедитесь, что уведомление появилось в списке и помечено как активное</li>
+                                        <li>Настройка NovoFon завершена!</li>
+                                    </ul>
+
+                                    <div class="alert alert-success mt-3">
+                                        <strong>✅ Готово!</strong> Теперь при получении SMS на ваш номер NovoFon, уведомление будет автоматически отправляться в нашу систему для дальнейшей пересылки в Telegram.
+                                    </div>
 
                                     <h5>Шаг 3: Для Telfin и Mango</h5>
                                     <ul>
