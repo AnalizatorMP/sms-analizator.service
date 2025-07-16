@@ -189,7 +189,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users_app.User'
 
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/about/'
+LOGIN_REDIRECT_URL = '/index/'
 LOGOUT_REDIRECT_URL = '/login/'
 
 TOKEN_BOT = os.getenv('TOKEN_BOT')

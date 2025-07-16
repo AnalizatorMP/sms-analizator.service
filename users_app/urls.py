@@ -4,10 +4,9 @@ from django.urls import path
 from users_app import views
 
 urlpatterns = [
-    path('', lambda request: redirect('login')),
+    path('', lambda request: redirect('index')),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
-    path('about/', views.about_view, name='about'),
     path('index/', views.index, name='index'),
     path('faq/', views.faq, name='faq'),
     path('settings_rules/', views.settings_rules, name='settings_rules'),

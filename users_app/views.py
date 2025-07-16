@@ -30,7 +30,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             logger.info(f"Успешный вход пользователя: {user.phone} (ID: {user.id})")
-            return redirect('about')
+            return redirect('index')
         else:
             error_message = "Неверный логин или пароль."
             logger.warning(f"Неудачная попытка входа для пользователя: {username}")
